@@ -264,38 +264,15 @@ def main():
                   per_beta_anneal=per_beta_anneal, layer_norm=layer_norm, c51=c51, eps_steps=eps_steps,
                   eps_disable=eps_disable, activation=activation, n=nstep, munch_alpha=munch_alpha, grad_clip=grad_clip)
 
-    checkpoint_filename = agent_name + '_checkpoint.pth'
-
-    if os.path.exists(checkpoint_filename):
-        print("Loading checkpoint...")
-        checkpoint = torch.load(checkpoint_filename)
-        agent.net.load_state_dict(checkpoint['net_state_dict'])
-        agent.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-        agent.memory = checkpoint['memory']
-        steps = checkpoint['steps']
-        episodes = checkpoint['episodes']
-        scores = checkpoint['scores']
-        scores_count = checkpoint['scores_count']
-        observation = checkpoint['observation']
-        next_eval = checkpoint['next_eval']
-        current_eval = checkpoint['current_eval']
-        last_steps = checkpoint['last_steps']
-        last_time = checkpoint['last_time']
-        processes = []
-        print(f"Checkpoint loaded, resuming from step {steps}")
-    else:
-        steps = 0
-        last_steps = 0
-        last_time = time.time()
-        episodes = 0
-        current_eval = 0
-        scores_count = [0 for i in range(num_envs)]
-        scores = []
-        observation, info = env.reset()
-        processes = []
-        next_eval = eval_every
-
     scores_temp = []
+    steps = 0
+    last_steps = 0
+    last_time = time.time()
+    episodes = 0
+    current_eval = 0
+    scores_count = [0 for i in range(num_envs)]
+    scores = []
+    observation, info = env.reset()
     processes = []
 
     if testing:
@@ -335,23 +312,6 @@ def main():
                       flush=True)
                 last_steps = steps
                 last_time = time.time()
-            # Save the training state every 1200 steps
-            state = {
-                'net_state_dict': agent.net.state_dict(),
-                'optimizer_state_dict': agent.optimizer.state_dict(),
-                'memory': agent.memory,
-                'steps': steps,
-                'episodes': episodes,
-                'scores': scores,
-                'scores_count': scores_count,
-                'observation': observation,
-                'next_eval': next_eval,
-                'current_eval': current_eval,
-                'last_steps': last_steps,
-                'last_time': last_time,
-            }
-            torch.save(state, checkpoint_filename)
-            print(f"Checkpoint saved at step {steps}")
 
         # Evaluation
         if steps >= next_eval or steps >= n_steps:
