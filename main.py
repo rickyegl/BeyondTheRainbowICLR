@@ -313,6 +313,16 @@ def main():
                 last_steps = steps
                 last_time = time.time()
 
+        checkpoint = {
+                'epoch': epoch,
+                'batch_idx': batch_idx,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'loss': loss.item(),
+        }
+        torch.save(checkpoint, 'checkpoint.pth')
+        print(f"Checkpoint saved at epoch {epoch}, batch {batch_idx}")
+
         # Evaluation
         if steps >= next_eval or steps >= n_steps:
             print("Evaluating")
