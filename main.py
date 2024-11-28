@@ -287,6 +287,9 @@ def main():
         observation_, reward, done_, trun_, info = env.step_wait()
         done_ = np.logical_or(done_, trun_)
 
+        if(reward>=max(scores_count)):
+            agent.save_model()
+            
         for i in range(num_envs):
             scores_count[i] += reward[i]
             if done_[i]:
