@@ -287,16 +287,16 @@ def main():
         observation_, reward, done_, trun_, info = env.step_wait()
         done_ = np.logical_or(done_, trun_)
 
-        if(reward[i]>0 and reward[i]>=np.max(scores)):
-            agent.save_model()
-            
         for i in range(num_envs):
+            
             scores_count[i] += reward[i]
             if done_[i]:
                 episodes += 1
                 scores.append([scores_count[i], steps])
                 scores_temp.append(scores_count[i])
                 scores_count[i] = 0
+
+
 
         reward = np.clip(reward, -1., 1.)
 
