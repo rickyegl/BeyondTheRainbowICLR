@@ -274,6 +274,7 @@ def main():
     scores = []
     observation, info = env.reset()
     processes = []
+    avg_scores = []
 
     if testing:
         from torchsummary import summary
@@ -315,6 +316,11 @@ def main():
                       flush=True)
                 last_steps = steps
                 last_time = time.time()
+
+                avg_scores.append(avg_score)
+                if(max(avg_scores) == avg_score):
+                    agent.save_model()
+                    print("New best model saved")
 
         # Evaluation
         if steps >= next_eval or steps >= n_steps:
