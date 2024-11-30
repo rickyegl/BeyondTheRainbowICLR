@@ -43,3 +43,5 @@ torchsummary==1.5.1
 tqdm==4.66.5
 typing_extensions==4.9.0
 urllib3==2.2.3
+#mario
+nes-py>=4.0.0
