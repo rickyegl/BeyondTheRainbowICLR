@@ -13,12 +13,13 @@ from matplotlib import pyplot as plt
 
 from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros
-from gym_super_mario_bros.actions import COMPLEX_MOVEMENT
+from gym_super_mario_bros.actions import COMPLEX_MOVEMENT, COMPLEX_MOVEMENT_SPACE
+from frame_stack_env import FrameStackEnv
 
 def make_env(envs_create, game, life_info, framestack, repeat_probs):
     return gym.vector.AsyncVectorEnv([lambda: gym.wrappers.FrameStack(
-        gym_super_mario_bros.make('SuperMarioBrosRandomStages-v1',stages=[1]),framestack,
-        lz4_compress=False) for _ in range(envs_create)], context="spawn")
+        gym_super_mario_bros.make('SuperMarioBros-v1'),framestack,
+        lz4_compress=False) for _ in range(envs_create)], context="spawn",action_space=COMPLEX_MOVEMENT_SPACE)
 
     #, render_mode="human"
 
@@ -67,7 +68,7 @@ def evaluate_agent(net_state_dict, network_creator, eval_envs, num_eval_episodes
         rng = 0.0
     while eval_episodes < num_eval_episodes:
 
-        eval_action = choose_eval_action(eval_observation, eval_net, COMPLEX_MOVEMENT.count(), device, rng)
+        eval_action = choose_eval_action(eval_observation, eval_net, n_actions, device, rng)
         eval_observation_, eval_reward, eval_done_, eval_trun_, eval_info = eval_env.step(eval_action)
         eval_done_ = np.logical_or(eval_done_, eval_trun_)
 
