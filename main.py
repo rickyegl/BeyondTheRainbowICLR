@@ -257,6 +257,7 @@ def main():
     env = make_env(num_envs, game, life_info, framestack, repeat_probs)
     print("env made")
     print(env.observation_space)
+    print(env.action_space)
     print(env.action_space[0])
     n_actions = env.action_space[0].n
 
