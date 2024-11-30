@@ -17,7 +17,7 @@ from gym_super_mario_bros.actions import COMPLEX_MOVEMENT
 
 def make_env(envs_create, game, life_info, framestack, repeat_probs):
     return gym.vector.AsyncVectorEnv([lambda: gym.wrappers.FrameStack(
-        AtariPreprocessingCustom(gym_super_mario_bros.make('SuperMarioBros-v0', stages=['1']), life_information=life_info), framestack,
+        AtariPreprocessingCustom(gym.make('SuperMarioBros-v0'), life_information=life_info), framestack,
         lz4_compress=False) for _ in range(envs_create)], context="spawn")
 
     #, render_mode="human"
