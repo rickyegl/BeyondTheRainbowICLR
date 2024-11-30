@@ -11,9 +11,13 @@ from AtariPreprocessingCustom import AtariPreprocessingCustom
 from functools import partial
 from matplotlib import pyplot as plt
 
+from nes_py.wrappers import JoypadSpace
+import gym_super_mario_bros
+from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
+
 def make_env(envs_create, game, life_info, framestack, repeat_probs):
     return gym.vector.AsyncVectorEnv([lambda: gym.wrappers.FrameStack(
-        AtariPreprocessingCustom(gym.make("ALE/" + game + "-v5", frameskip=1, repeat_action_probability=repeat_probs), life_information=life_info), framestack,
+        AtariPreprocessingCustom(gym_super_mario_bros.make('SuperMarioBros-v0'), life_information=life_info), framestack,
         lz4_compress=False) for _ in range(envs_create)], context="spawn")
 
     #, render_mode="human"
