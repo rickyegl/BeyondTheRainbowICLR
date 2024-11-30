@@ -13,7 +13,7 @@ from matplotlib import pyplot as plt
 
 from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros
-from gym_super_mario_bros.actions import COMPLEX_MOVEMENT, COMPLEX_MOVEMENT_SPACE
+from gym_super_mario_bros.actions import COMPLEX_MOVEMENT_SPACE
 from frame_stack_env import FrameStackEnv
 
 def make_env(envs_create, game, life_info, framestack, repeat_probs):

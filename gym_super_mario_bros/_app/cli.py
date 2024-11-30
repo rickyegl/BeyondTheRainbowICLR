@@ -5,14 +5,14 @@ import gym
 from nes_py.wrappers import JoypadSpace
 from nes_py.app.play_human import play_human
 from nes_py.app.play_random import play_random
-from ..actions import RIGHT_ONLY, SIMPLE_MOVEMENT, COMPLEX_MOVEMENT
+from ..actions import RIGHT_ONLY, SIMPLE_MOVEMENT, COMPLEX_MOVEMENT_SPACE
 
 
 # a key mapping of action spaces to wrap with
 _ACTION_SPACES = {
     'right': RIGHT_ONLY,
     'simple': SIMPLE_MOVEMENT,
-    'complex': COMPLEX_MOVEMENT,
+    'complex': COMPLEX_MOVEMENT_SPACE,
 }
 
 
